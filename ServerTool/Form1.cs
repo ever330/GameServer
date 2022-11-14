@@ -25,6 +25,7 @@ namespace ServerTool
             InitializeComponent();
             m_ServerNet = new Network();
             m_ServerNet.SetForm(this);
+
         }
 
         // 쿼리문 전송 버튼
@@ -174,6 +175,16 @@ namespace ServerTool
             {
                 richTextBox2.AppendText("서버가 이미 오픈 되었습니다.\n");
                 richTextBox2.ScrollToCaret();
+            }
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+            for (int i = 0; i < host.AddressList.Length; i++)
+            {
+                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                {
+                    textBox2.Text = host.AddressList[i].ToString();
+                    break;
+                }
             }
         }
 

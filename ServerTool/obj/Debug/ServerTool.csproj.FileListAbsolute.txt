@@ -18,3 +18,13 @@ E:\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.csproj.GenerateReso
 E:\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.csproj.CoreCompileInputs.cache
 E:\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.exe
 E:\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.pdb
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\bin\Debug\ServerTool.exe.config
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\bin\Debug\ServerTool.exe
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\bin\Debug\ServerTool.pdb
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.csproj.AssemblyReference.cache
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.Form1.resources
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.Properties.Resources.resources
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.csproj.GenerateResource.cache
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.csproj.CoreCompileInputs.cache
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.exe
+E:\GA3rdFinalProject_GIAcademy\5_Project\ProtoType\Client_Server\server_test\ServerTool\obj\Debug\ServerTool.pdb
