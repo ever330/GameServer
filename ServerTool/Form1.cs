@@ -25,7 +25,6 @@ namespace ServerTool
             InitializeComponent();
             m_ServerNet = new Network();
             m_ServerNet.SetForm(this);
-
         }
 
         // 쿼리문 전송 버튼
@@ -43,6 +42,7 @@ namespace ServerTool
                 myConn.Open();
                 myCommand.ExecuteNonQuery();
                 MessageBox.Show("전송에 성공하였습니다.", "MyProgram", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                textBox1.Clear();
             }
             catch (System.Exception ex)
             {
@@ -170,21 +170,25 @@ namespace ServerTool
                 m_ServerNet.SocketServer();
                 richTextBox2.AppendText("서버 오픈\n");
                 richTextBox2.ScrollToCaret();
+                
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+                string localIP = string.Empty;
+
+                for (int i = 0; i < host.AddressList.Length; i++)
+                {
+                    if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        localIP = host.AddressList[i].ToString();
+                        break;
+                    }
+                }
+
+                textBox2.Text = localIP;
             }
             else
             {
                 richTextBox2.AppendText("서버가 이미 오픈 되었습니다.\n");
                 richTextBox2.ScrollToCaret();
-            }
-
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
-            for (int i = 0; i < host.AddressList.Length; i++)
-            {
-                if (host.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
-                {
-                    textBox2.Text = host.AddressList[i].ToString();
-                    break;
-                }
             }
         }
 
@@ -227,13 +231,7 @@ namespace ServerTool
 
         }
 
-        // 모든 클라이언트에 메시지 전송
-        private void button6_Click(object sender, EventArgs e)
-        {
-            m_ServerNet.SendMessage("서버에 접속되었습니다.");
-        }
-
-        public void UpdataDataGridView(DataSet ds)
+        public void UpdateDataGridView(DataSet ds)
         {
             if (dataGridView2.InvokeRequired)
             {

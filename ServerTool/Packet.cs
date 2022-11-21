@@ -7,15 +7,17 @@ using System.Threading.Tasks;
 
 namespace client_test
 {
+    public enum PacketType : int
+    {
+        Login,
+        SignUp,
+        IdCheck
+    }
+
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
     public class Packet<T> where T : class
     {
-        public Packet()
-        {
-
-        }
-
         public byte[] Serialize()
         {
             var size = Marshal.SizeOf(typeof(T));
@@ -38,20 +40,27 @@ namespace client_test
         }
     }
 
-
     [Serializable]
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    public class LoginPacket : Packet<LoginPacket>
+    public class ClientPacket : Packet<ClientPacket>
     {
+        public PacketType m_packetType;
+
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 30)]
         public string m_id;
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 30)]
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 100)]
         public string m_pw;
+    }
 
-        public LoginPacket()
-        {
 
-        }
+    [Serializable]
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    public class ServerPacket : Packet<ServerPacket>
+    {
+        public PacketType m_packetType;
+
+        [MarshalAs(UnmanagedType.Bool, SizeConst = 100)]
+        public bool m_isSuccess;
     }
 }
