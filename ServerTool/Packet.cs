@@ -5,13 +5,14 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace client_test
+namespace ServerTool
 {
     public enum PacketType : int
     {
         Login,
         SignUp,
-        IdCheck
+        IdCheck,
+        DuplicationCheck
     }
 
     [Serializable]

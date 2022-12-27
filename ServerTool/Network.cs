@@ -9,7 +9,6 @@ using System.IO;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using client_test;
 
 namespace ServerTool
 {
@@ -49,8 +48,36 @@ namespace ServerTool
         // 클라이언트 접속 수락 Callback 함수
         private void AcceptCompleted(object sender, SocketAsyncEventArgs e)
         {
+            bool isDuplication = false;
+
+            foreach (var cSocket in m_ClientSocket)
+            {
+                IPEndPoint ipEp1 = (IPEndPoint)cSocket.RemoteEndPoint;
+                IPEndPoint ipEp2 = (IPEndPoint)e.AcceptSocket.RemoteEndPoint;
+
+                if (Equals(ipEp1.Address, ipEp2.Address))
+                {
+                    ServerPacket sp = new ServerPacket();
+                    sp.m_packetType = PacketType.DuplicationCheck;
+                    sp.m_isSuccess = false;
+
+                    PacketSend(e.AcceptSocket, sp);
+
+                    isDuplication = true;
+                }
+            }
+
             Socket clientSocket = e.AcceptSocket;
-            m_ClientSocket.Add(clientSocket);
+
+            if (!isDuplication)
+            {
+                m_ClientSocket.Add(clientSocket);
+                form1.writeRichTextBox(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss\n") + clientSocket.RemoteEndPoint.ToString() + " 접속");
+            }
+            else
+            {
+                form1.writeRichTextBox(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss\n") + clientSocket.RemoteEndPoint.ToString() + " ip중복 접속");
+            }
 
             if (m_ClientSocket != null)
             {
@@ -60,7 +87,7 @@ namespace ServerTool
                 args.UserToken = m_ClientSocket;
                 args.Completed += new EventHandler<SocketAsyncEventArgs>(ReceiveCompleted);
                 clientSocket.ReceiveAsync(args);
-                form1.writeRichTextBox(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss\n") + clientSocket.RemoteEndPoint.ToString() + " 접속");
+                //form1.writeRichTextBox(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss\n") + clientSocket.RemoteEndPoint.ToString() + " 접속");
             }
 
             e.AcceptSocket = null;
@@ -80,7 +107,7 @@ namespace ServerTool
 
                 form1.writeRichTextBox(DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss\n") + clientSocket.RemoteEndPoint.ToString() + "에서 패킷을 수신하였습니다.");
 
-                PacketCheck(clientSocket ,s);
+                PacketCheck(clientSocket, s);
 
                 // 데이터 수신 byte배열 초기화
                 for (int i = 0; i < szData.Length; i++)
@@ -99,7 +126,7 @@ namespace ServerTool
             }
         }
 
-        public void PacketSend(Socket clientSoc,ServerPacket cp)
+        public void PacketSend(Socket clientSoc, ServerPacket sp)
         {
             SocketAsyncEventArgs sendEventArgs = new SocketAsyncEventArgs();
             if (sendEventArgs == null)
@@ -111,7 +138,7 @@ namespace ServerTool
             sendEventArgs.Completed += SendComplected;
             sendEventArgs.UserToken = this;
 
-            byte[] sendData = cp.Serialize();
+            byte[] sendData = sp.Serialize();
 
             sendEventArgs.SetBuffer(sendData, 0, sendData.Length);
 
